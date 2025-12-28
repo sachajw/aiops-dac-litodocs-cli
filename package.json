@@ -1,0 +1,35 @@
+{
+  "name": "superdocs",
+  "version": "0.1.0",
+  "description": "The open-source Mintlify alternative. Beautiful documentation sites from Markdown.",
+  "main": "src/index.js",
+  "type": "module",
+  "bin": {
+    "superdocs": "./bin/cli.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "documentation",
+    "docs",
+    "mintlify",
+    "astro",
+    "mdx",
+    "static-site-generator",
+    "open-source"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@astrojs/mdx": "^3.1.0",
+    "@clack/prompts": "^0.11.0",
+    "astro": "^4.16.0",
+    "chokidar": "^4.0.0",
+    "commander": "^12.1.0",
+    "execa": "^9.0.0",
+    "fs-extra": "^11.2.0",
+    "picocolors": "^1.1.1",
+    "zod": "^3.23.0"
+  }
+}
