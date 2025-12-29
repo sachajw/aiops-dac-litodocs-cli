@@ -1,31 +1,21 @@
-import pkg from 'fs-extra';
-const { writeFile } = pkg;
-import { join } from 'path';
+import pkg from "fs-extra";
+const { readFile, writeFile } = pkg;
+import { join } from "path";
 
 export async function generateConfig(projectDir, options) {
-  // Config is now handled by the template directly.
-  // We avoid overwriting it to preserve custom integrations like AutoImport and ExpressiveCode.
+  const { baseUrl } = options;
 
-  /*
-  const { theme, baseUrl, search } = options;
+  // Only modify if base URL is not default
+  if (baseUrl && baseUrl !== "/") {
+    const configPath = join(projectDir, "astro.config.mjs");
+    let content = await readFile(configPath, "utf-8");
 
-  const configContent = `import { defineConfig } from 'astro/config';
-import mdx from '@astrojs/mdx';
+    // Add base option to defineConfig
+    content = content.replace(
+      "export default defineConfig({",
+      `export default defineConfig({\n  base: '${baseUrl}',`
+    );
 
-// https://astro.build/config
-export default defineConfig({
-  integrations: [mdx()],
-  base: '${baseUrl}',
-  site: 'https://example.com', // Update this with your actual site URL
-  markdown: {
-    shikiConfig: {
-      theme: '${theme === 'dark' ? 'github-dark' : 'github-light'}',
-    },
-  },
-});
-`;
-
-  const configPath = join(projectDir, 'astro.config.mjs');
-  await writeFile(configPath, configContent, 'utf-8');
-  */
+    await writeFile(configPath, content, "utf-8");
+  }
 }
