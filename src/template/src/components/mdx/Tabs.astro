@@ -74,7 +74,6 @@ const hasItemsProp = Array.isArray(items) && items.length > 0;
 <script>
   function initTabs() {
     document.querySelectorAll('.tabs-container').forEach((container) => {
-      const id = container.getAttribute('data-tabs-id');
       const defaultIndex = parseInt(container.getAttribute('data-default-index') || '0');
       const dynamicHeader = container.querySelector('.dynamic-tabs');
       const staticHeader = container.querySelector('.tabs-header:not(.dynamic-tabs)');
@@ -93,8 +92,8 @@ const hasItemsProp = Array.isArray(items) && items.length > 0;
           button.textContent = title;
           dynamicHeader.appendChild(button);
         });
-        dynamicHeader.style.display = 'flex';
-        if (staticHeader) staticHeader.style.display = 'none';
+        (dynamicHeader as HTMLElement).style.display = 'flex';
+        if (staticHeader) (staticHeader as HTMLElement).style.display = 'none';
       }
       
       const buttons = container.querySelectorAll('[role="tab"]');

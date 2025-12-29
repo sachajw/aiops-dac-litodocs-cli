@@ -10,7 +10,7 @@ export async function cli() {
   program
     .name('superdocs')
     .description('The open-source Mintlify alternative. Beautiful docs from Markdown.')
-    .version('1.0.0');
+    .version('0.2.0');
 
   program
     .command('build')

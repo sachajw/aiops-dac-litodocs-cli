@@ -1,5 +1,4 @@
 ---
-import Layout from '../layouts/Layout.astro';
 import DocsLayout from '../components/landing/DocsLayout.astro';
 import DocsHero from '../components/landing/DocsHero.astro';
 import DocsFeatureGrid from '../components/landing/DocsFeatureGrid.astro';
@@ -58,7 +57,7 @@ const secondaryBtn = heroConfig?.cta?.find(c => c.variant === 'secondary');
         <head>
             <meta charset="UTF-8" />
             <meta http-equiv="refresh" content={`0;url=${redirectUrl}`} />
-            <script define:vars={{ redirectUrl }}>
+            <script is:inline define:vars={{ redirectUrl }}>
                 window.location.href = redirectUrl;
             </script>
             <title>Redirecting...</title>

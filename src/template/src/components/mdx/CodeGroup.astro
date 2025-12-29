@@ -74,7 +74,7 @@
         
         // Get title from code block or default to language
         const langClass = block.className.match(/language-(\w+)/);
-        const title = block.dataset.title || langClass?.[1] || `Tab ${index + 1}`;
+        const title = (block as HTMLElement).dataset.title || langClass?.[1] || `Tab ${index + 1}`;
         
         const btn = document.createElement('button');
         btn.textContent = title;
