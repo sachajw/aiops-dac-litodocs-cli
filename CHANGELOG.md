@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.5] - 2026-01-02
+
+### Added
+
+- **CLI Config Options**: New command-line options for configuring documentation metadata and branding
+  - `--name <name>` - Set project name directly from CLI
+  - `--description <description>` - Set project description
+  - `--primary-color <color>` - Set primary theme color (hex format)
+  - `--accent-color <color>` - Set accent theme color (hex format)
+  - `--favicon <path>` - Set favicon path
+  - `--logo <path>` - Set logo path
+- **Enhanced Config Management**: CLI options now automatically update `docs-config.json` during build/dev/eject operations
+
+### Removed
+
+- **Unused Dependency**: Removed `zod` package (was not being used, reduces bundle size)
+
+### Improved
+
+- **Cleaner Dependencies**: Only 8 essential packages now (from 9)
+- **CLI Usability**: No need to manually edit `docs-config.json` for basic configuration
+
 ## [0.3.0] - 2026-01-01
 
 ### Added
