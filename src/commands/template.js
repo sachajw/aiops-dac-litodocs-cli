@@ -7,7 +7,7 @@ import { getRegistryNames, getRegistryInfo } from '../core/template-registry.js'
  * List available templates
  */
 export async function templateListCommand() {
-    intro(pc.inverse(pc.cyan(' SuperDocs - Templates ')));
+    intro(pc.inverse(pc.cyan(' Lito - Templates ')));
 
     // Show registry templates
     const names = getRegistryNames();
@@ -22,8 +22,8 @@ export async function templateListCommand() {
 
     console.log('');
     log.info(pc.dim('You can also use GitHub URLs directly:'));
-    console.log(pc.dim('  superdocs dev -i . --template github:owner/repo'));
-    console.log(pc.dim('  superdocs dev -i . --template github:owner/repo#v1.0.0'));
+    console.log(pc.dim('  lito dev -i . --template github:owner/repo'));
+    console.log(pc.dim('  lito dev -i . --template github:owner/repo#v1.0.0'));
     console.log('');
 
     // Show cached templates
@@ -45,7 +45,7 @@ export async function templateListCommand() {
  * Manage template cache
  */
 export async function templateCacheCommand(options) {
-    intro(pc.inverse(pc.cyan(' SuperDocs - Template Cache ')));
+    intro(pc.inverse(pc.cyan(' Lito - Template Cache ')));
 
     if (options.clear) {
         const s = spinner();
@@ -75,6 +75,6 @@ export async function templateCacheCommand(options) {
     }
 
     console.log('');
-    note('superdocs template cache --clear', 'To clear cache');
+    note('lito template cache --clear', 'To clear cache');
     outro('');
 }
