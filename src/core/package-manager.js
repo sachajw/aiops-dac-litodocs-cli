@@ -41,6 +41,22 @@ export async function installDependencies(projectDir, { silent = true } = {}) {
     });
 }
 
+export async function installPackage(projectDir, packageName, { dev = false, silent = true } = {}) {
+    const manager = await getPackageManager();
+    const args = manager === 'npm' ? ['install'] : ['add'];
+    
+    if (dev) {
+        args.push('-D');
+    }
+    
+    args.push(packageName);
+
+    await execa(manager, args, {
+        cwd: projectDir,
+        stdio: silent ? 'pipe' : 'inherit',
+    });
+}
+
 /**
  * Runs a binary using the package manager (e.g. 'astro').
  */
