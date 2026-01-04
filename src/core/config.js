@@ -1,6 +1,7 @@
 import pkg from "fs-extra";
-const { readFile, writeFile } = pkg;
+const { readFile, writeFile, ensureDir } = pkg;
 import { join } from "path";
+import { generateThemeStyles } from "./colors.js";
 
 export async function generateConfig(projectDir, options) {
   const {
@@ -31,8 +32,17 @@ export async function generateConfig(projectDir, options) {
   // Update theme colors
   if (primaryColor || accentColor) {
     config.theme = config.theme || {};
-    if (primaryColor) config.theme.primaryColor = primaryColor;
-    if (accentColor) config.theme.accentColor = accentColor;
+    config.branding = config.branding || {};
+    config.branding.colors = config.branding.colors || {};
+
+    if (primaryColor) {
+      config.theme.primaryColor = primaryColor;
+      config.branding.colors.primary = primaryColor;
+    }
+    if (accentColor) {
+      config.theme.accentColor = accentColor;
+      config.branding.colors.accent = accentColor;
+    }
   }
 
   // Update branding
@@ -45,15 +55,38 @@ export async function generateConfig(projectDir, options) {
 
   await writeFile(configPath, JSON.stringify(config, null, 2), "utf-8");
 
-  // Update astro.config.mjs with base URL if needed
-  if (baseUrl && baseUrl !== "/") {
+  // Generate theme styles
+  if (config.branding?.colors?.primary) {
+    const themeStyles = generateThemeStyles(config.branding.colors);
+    const stylesDir = join(projectDir, "src", "styles");
+    await ensureDir(stylesDir);
+    await writeFile(join(stylesDir, "generated-theme.css"), themeStyles, "utf-8");
+  } else {
+    // Write empty file to avoid import error
+    const stylesDir = join(projectDir, "src", "styles");
+    await ensureDir(stylesDir);
+    await writeFile(join(stylesDir, "generated-theme.css"), "/* No generated theme styles */", "utf-8");
+  }
+
+  // Update astro.config.mjs with base URL and site URL
+  if ((baseUrl && baseUrl !== "/") || config.metadata?.url) {
     const astroConfigPath = join(projectDir, "astro.config.mjs");
     let content = await readFile(astroConfigPath, "utf-8");
 
-    // Add base option to defineConfig
+    let injection = "export default defineConfig({\n";
+    
+    if (baseUrl && baseUrl !== "/") {
+      injection += `  base: '${baseUrl}',\n`;
+    }
+    
+    if (config.metadata?.url) {
+      injection += `  site: '${config.metadata.url}',\n`;
+    }
+
+    // Add base/site option to defineConfig
     content = content.replace(
       "export default defineConfig({",
-      `export default defineConfig({\n  base: '${baseUrl}',`
+      injection
     );
 
     await writeFile(astroConfigPath, content, "utf-8");
