@@ -1,20 +1,20 @@
 /**
  * Template Registry - Maps shorthand names to GitHub template URLs
- * 
+ *
  * Users can use these short names instead of full GitHub URLs:
- *   superdocs dev -i . --theme modern
- * 
+ *   lito dev -i . --theme modern
+ *
  * Instead of:
- *   superdocs dev -i . --theme github:devrohit06/superdocs-theme-modern
+ *   lito dev -i . --theme github:devrohit06/lito-theme-modern
  */
 
 export const TEMPLATE_REGISTRY = {
     // Default template (fetched from GitHub)
-    'default': 'github:DevRohit06/superdocs-default-template',
+    'default': 'github:Lito-docs/template',
 
     // Official templates
-    // 'modern': 'github:devrohit06/superdocs-theme-modern',
-    // 'minimal': 'github:devrohit06/superdocs-theme-minimal',
+    // 'modern': 'github:devrohit06/lito-theme-modern',
+    // 'minimal': 'github:devrohit06/lito-theme-minimal',
 };
 
 /**
