@@ -2,15 +2,20 @@
 
 Beautiful documentation sites from Markdown. Fast, simple, and open-source.
 
+> **Note:** This package was previously published as `@devrohit06/superdocs`. It has been renamed to `@litodocs/cli`.
+
 ## Features
 
-✨ **Simple Setup** - Point to your docs folder and go 
-🚀 **Astro-Powered** - Leverages Astro's speed and SEO optimization
-📝 **Markdown & MDX** - Full support for both formats with frontmatter
-🎨 **Customizable Templates** - Use GitHub-hosted or local templates
-🔥 **Hot Reload** - Dev server with live file watching
-⚡ **Fast Builds** - Static site generation for optimal performance
-🎯 **SEO Optimized** - Meta tags, semantic HTML, and proper structure
+- ✨ **Simple Setup** - Point to your docs folder and go
+- 🚀 **Astro-Powered** - Leverages Astro's speed and SEO optimization
+- 📝 **Markdown & MDX** - Full support for both formats with frontmatter
+- 🎨 **Customizable Templates** - Use GitHub-hosted or local templates
+- 🔥 **Hot Reload** - Dev server with live file watching
+- ⚡ **Fast Builds** - Static site generation for optimal performance
+- 🎯 **SEO Optimized** - Meta tags, semantic HTML, and proper structure
+- 🌍 **i18n Support** - Built-in internationalization with 40+ languages
+- 📚 **Versioning** - Documentation versioning with version switcher
+- 🎨 **Dynamic Theming** - OKLCH color palette generation from primary color
 
 ## Installation
 
@@ -20,14 +25,36 @@ Beautiful documentation sites from Markdown. Fast, simple, and open-source.
 npm install -g @litodocs/cli
 # or
 pnpm add -g @litodocs/cli
+# or
+yarn global add @litodocs/cli
 ```
 
 ### Local Development
 
+Clone the repository and link it locally:
+
 ```bash
-cd lito
+git clone https://github.com/Lito-docs/cli.git
+cd cli
 pnpm install
 chmod +x bin/cli.js
+npm link
+```
+
+Now you can use `lito` command globally from your terminal.
+
+## Quick Start
+
+```bash
+# Create a docs folder with markdown files
+mkdir my-docs
+echo "# Hello World" > my-docs/index.md
+
+# Start dev server
+lito dev -i ./my-docs
+
+# Build for production
+lito build -i ./my-docs -o ./dist
 ```
 
 ## Usage
@@ -42,14 +69,16 @@ lito build --input ./my-docs --output ./dist
 
 **Options:**
 
-- `-i, --input <path>` (required) - Path to your docs folder
-- `-o, --output <path>` - Output directory (default: `./dist`)
-- `-t, --template <name>` - Template to use (see [Templates](#templates))
-- `-b, --base-url <url>` - Base URL for the site (default: `/`)
-- `--provider <name>` - optimize for hosting provider (vercel, netlify, cloudflare, static)
-- `--rendering <mode>` - Rendering mode (static, server, hybrid)
-- `--search` - Enable search functionality
-- `--refresh` - Force re-download template from GitHub
+| Option | Description | Default |
+|--------|-------------|---------|
+| `-i, --input <path>` | Path to your docs folder (required) | - |
+| `-o, --output <path>` | Output directory | `./dist` |
+| `-t, --template <name>` | Template to use | `default` |
+| `-b, --base-url <url>` | Base URL for the site | `/` |
+| `--provider <name>` | Hosting provider (vercel, netlify, cloudflare, static) | `static` |
+| `--rendering <mode>` | Rendering mode (static, server, hybrid) | `static` |
+| `--search` | Enable search functionality | `false` |
+| `--refresh` | Force re-download template | `false` |
 
 ### Dev Command
 
@@ -61,12 +90,14 @@ lito dev --input ./my-docs
 
 **Options:**
 
-- `-i, --input <path>` (required) - Path to your docs folder
-- `-t, --template <name>` - Template to use
-- `-b, --base-url <url>` - Base URL for the site
-- `-p, --port <number>` - Port for dev server (default: `4321`)
-- `--search` - Enable search functionality
-- `--refresh` - Force re-download template
+| Option | Description | Default |
+|--------|-------------|---------|
+| `-i, --input <path>` | Path to your docs folder (required) | - |
+| `-t, --template <name>` | Template to use | `default` |
+| `-b, --base-url <url>` | Base URL for the site | `/` |
+| `-p, --port <number>` | Port for dev server | `4321` |
+| `--search` | Enable search functionality | `false` |
+| `--refresh` | Force re-download template | `false` |
 
 ### Eject Command
 
@@ -81,21 +112,27 @@ lito eject --input ./my-docs --output ./my-project
 Lito includes built-in optimizations for major hosting providers. Use the `--provider` flag during build:
 
 ### Vercel
+
 ```bash
 lito build -i ./docs --provider vercel
 ```
+
 Generates `vercel.json` and optimizes for Vercel's edge network.
 
 ### Netlify
+
 ```bash
 lito build -i ./docs --provider netlify
 ```
+
 Generates `netlify.toml` with security headers.
 
 ### Cloudflare Pages
+
 ```bash
 lito build -i ./docs --provider cloudflare --rendering server
 ```
+
 Configures the project for Cloudflare's edge runtime with SSR support.
 
 ## Analytics
@@ -198,7 +235,7 @@ Your content here...
 
 ## Architecture
 
-The CLI tool:
+The CLI tool follows this pipeline:
 
 1. **Resolves Template** - Fetches from GitHub or uses local template
 2. **Scaffolds** - Creates a temporary Astro project from the template
@@ -206,46 +243,6 @@ The CLI tool:
 4. **Configures** - Generates dynamic `astro.config.mjs` with your options
 5. **Builds/Serves** - Spawns native Astro CLI commands
 6. **Watches** (dev mode) - Uses `chokidar` to monitor file changes
-
-## Development
-
-### Project Structure
-
-```
-lito/
-├── bin/
-│   └── cli.js              # CLI entry point
-├── src/
-│   ├── cli.js              # Commander setup
-│   ├── commands/
-│   │   ├── build.js        # Build command
-│   │   ├── dev.js          # Dev command with watcher
-│   │   ├── eject.js        # Eject command
-│   │   └── template.js     # Template management
-│   ├── core/
-│   │   ├── scaffold.js     # Project scaffolding
-│   │   ├── sync.js         # File syncing
-│   │   ├── config.js       # Config generation
-│   │   ├── astro.js        # Astro CLI spawning
-│   │   ├── template-fetcher.js   # GitHub template fetching
-│   │   └── template-registry.js  # Template name registry
-│   └── template/           # Bundled fallback template
-└── package.json
-```
-
-### Running Tests
-
-```bash
-# Create sample docs
-mkdir sample-docs
-echo "# Hello\n\nWelcome!" > sample-docs/index.md
-
-# Test build
-node bin/cli.js build -i sample-docs -o test-output
-
-# Test dev server
-node bin/cli.js dev -i sample-docs
-```
 
 ## Contributing
 
